@@ -1,10 +1,12 @@
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 public class SaleniumDemo {
 
@@ -47,8 +49,27 @@ public class SaleniumDemo {
 		Select options = new Select(selectDropdwn);
 		selectDropdwn.click();
 		Thread.sleep(2000);
-		driver.findElement(By.xpath("//*[@id=\'dropdown-class-example\']/option[2]")).click();
+		options.selectByIndex(1);
 		selectDropdwn.click();
+		Thread.sleep(2000);
+		selectDropdwn.click();
+		String s=options.getFirstSelectedOption().getText();
+		Assert.assertEquals("Option1",s);
+		Thread.sleep(2000);
+		options.selectByIndex(2);
+		selectDropdwn.click();
+		Thread.sleep(2000);
+		selectDropdwn.click();
+		options.getFirstSelectedOption();
+		Thread.sleep(2000);
+		options.selectByIndex(3);
+		selectDropdwn.click();
+		Thread.sleep(2000);
+		selectDropdwn.click();
+		options.getFirstSelectedOption();
+		Thread.sleep(2000);
+		selectDropdwn.click();
+		
 
 	}
 
@@ -98,6 +119,45 @@ public class SaleniumDemo {
 		Thread.sleep(1500);
 
 	}
+	
+	/**
+	 * @param driver
+	 * @throws InterruptedException
+	 */
+	public static void exerciseFive(WebDriver driver)  throws InterruptedException {
+		
+		  driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+		  driver.manage().window().maximize();
+		  
+		  driver.findElement(By.xpath("//*[@id='openwindow']")).click(); 
+		  Set<String> Windows = driver.getWindowHandles();
+		  
+		  Iterator<String> it =Windows.iterator();  
+		  String parentid=it.next();
+		  Thread.sleep(5000); driver.switchTo().window(parentid);
+		  
+		/*
+		 * driver.findElement(By.xpath("//*[@id='openwindow']")).click(); String
+		 * handler=driver.getWindowHandle(); Thread.sleep(3000); //driver.close();
+		 * driver.switchTo().window(handler).close(); Thread.sleep(2000);
+		 */
+		  
+		
+	}
+	
+	public static void exerciseSix(WebDriver driver) throws InterruptedException{
+		  driver.findElement(By.xpath("//*[@id='opentab']")).click(); 
+		  Set<String>Windows = driver.getWindowHandles();
+		  Iterator<String> it =Windows.iterator(); 
+		  String parentid=it.next();
+		  Thread.sleep(3000); 
+		  String child=it.next();
+		  driver.switchTo().window(child);
+		  Thread.sleep(3000); 
+		  driver.close();
+		
+	}
+	
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -112,6 +172,8 @@ public class SaleniumDemo {
 			SaleniumDemo.exerciseFour(driver);
 			SaleniumDemo.exerciseFourPointOne(driver);
 			SaleniumDemo.exerciseFourPointTwo(driver);
+			SaleniumDemo.exerciseFive(driver);
+			SaleniumDemo.exerciseSix(driver);
 
 			driver.close();
 		}
